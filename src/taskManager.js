@@ -110,3 +110,11 @@ export function validatePriority(priority) {
 export function filterByPriority(tasks, priority) {
   return tasks.filter(t => t.priority === priority);
 }
+
+// ------------------------------------------------------------
+// Ordenação
+// ------------------------------------------------------------
+export function sortTasks(tasks) {
+  // Usamos o spread [...] para criar uma cópia, pois o .sort() original altera o array
+  return [...tasks].sort((a, b) => Number(a.completed) - Number(b.completed));
+}
