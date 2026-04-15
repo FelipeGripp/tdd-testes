@@ -11,6 +11,7 @@ import {
   countPending,
   validatePriority,
   filterByPriority,
+  isDuplicate,
 } from '../src/taskManager.js';
 
 // ============================================================
@@ -268,5 +269,25 @@ describe('Prioridade', () => {
     const result = filterByPriority(tasks, 'high');
     expect(result).toHaveLength(2);
     expect(result.every(t => t.priority === 'high')).toBe(true);
+  });
+});
+
+// ============================================================
+// Exercício 5: Impedir duplicatas
+// ============================================================
+describe('Impedir duplicatas', () => {
+  it('isDuplicate deve retornar true para títulos idênticos', () => {
+    const tasks = [{ title: 'Estudar' }];
+    expect(isDuplicate(tasks, 'Estudar')).toBe(true);
+  });
+
+  it('isDuplicate deve ignorar maiúsculas e espaços extras (case-insensitive)', () => {
+    const tasks = [{ title: 'Estudar' }];
+    expect(isDuplicate(tasks, '  estudar  ')).toBe(true);
+  });
+
+  it('addTask deve lançar erro ao tentar adicionar título duplicado', () => {
+    const tasks = addTask([], 'Aprender TDD');
+    expect(() => addTask(tasks, 'Aprender TDD')).toThrow('Tarefa duplicada');
   });
 });
