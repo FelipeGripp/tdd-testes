@@ -115,6 +115,14 @@ export function filterByPriority(tasks, priority) {
 // Ordenação
 // ------------------------------------------------------------
 export function sortTasks(tasks) {
-  // Usamos o spread [...] para criar uma cópia, pois o .sort() original altera o array
+    
   return [...tasks].sort((a, b) => Number(a.completed) - Number(b.completed));
+}
+
+// ------------------------------------------------------------
+// Busca
+// ------------------------------------------------------------
+export function searchTasks(tasks, query) {
+  const q = query.toLowerCase();
+  return tasks.filter(t => t.title.toLowerCase().includes(q));
 }
