@@ -71,3 +71,18 @@ export function filterTasks(tasks, status) {
       return [...tasks];
   }
 }
+
+// ------------------------------------------------------------
+// Contagens
+// ------------------------------------------------------------
+export function countTasks(tasks) {
+  return tasks.length;
+}
+
+export function countCompleted(tasks) {
+  return tasks.filter((t) => t.completed === true).length;
+}
+
+export function countPending(tasks) {
+  return tasks.filter((t) => t.completed === false).length;
+}
