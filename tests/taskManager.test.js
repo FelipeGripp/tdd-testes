@@ -9,6 +9,8 @@ import {
   countTasks,
   countCompleted,
   countPending,
+  validatePriority,
+  filterByPriority,
 } from '../src/taskManager.js';
 
 // ============================================================
@@ -234,5 +236,37 @@ describe('Contagens', () => {
     expect(countTasks([])).toBe(0);
     expect(countCompleted([])).toBe(0);
     expect(countPending([])).toBe(0);
+  });
+});
+
+// ============================================================
+// Exercício 4: Prioridade
+// ============================================================
+describe('Prioridade', () => {
+  it('createTask deve incluir priority: "medium" por padrão', () => {
+    const task = createTask('Estudar DevOps');
+    expect(task.priority).toBe('medium');
+  });
+
+  it('createTask deve aceitar uma prioridade específica', () => {
+    const task = createTask('Trabalho Urgente', 'high');
+    expect(task.priority).toBe('high');
+  });
+
+  it('validatePriority deve aceitar apenas low, medium e high', () => {
+    expect(validatePriority('high')).toBe(true);
+    expect(validatePriority('low')).toBe(true);
+    expect(validatePriority('urgente')).toBe(false);
+  });
+
+  it('filterByPriority deve filtrar corretamente por prioridade', () => {
+    const tasks = [
+      { title: 'A', priority: 'high' },
+      { title: 'B', priority: 'low' },
+      { title: 'C', priority: 'high' }
+    ];
+    const result = filterByPriority(tasks, 'high');
+    expect(result).toHaveLength(2);
+    expect(result.every(t => t.priority === 'high')).toBe(true);
   });
 });
