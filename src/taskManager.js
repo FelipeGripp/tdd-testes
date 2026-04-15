@@ -50,3 +50,10 @@ export function addTask(tasks, title) {
   const newTask = createTask(title);
   return [...tasks, newTask];
 }
+
+// ------------------------------------------------------------
+// Remoção
+// ------------------------------------------------------------
+export function removeTask(tasks, taskId) {
+  return tasks.filter((task) => task.id !== taskId);
+}
