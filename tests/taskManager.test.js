@@ -5,6 +5,7 @@ import {
   addTask,
   resetId,
   removeTask,
+  filterTasks,
 } from '../src/taskManager.js';
 
 // ============================================================
@@ -172,5 +173,30 @@ describe('removeTask', () => {
   it('deve retornar a lista completa se o ID não existir', () => {
     const updated = removeTask(tasks, 99);
     expect(updated).toHaveLength(3);
+  });
+});
+
+// ============================================================
+// Exercício 2: filterTasks
+// ============================================================
+describe('filterTasks', () => {
+  let tasks;
+
+  beforeEach(() => {
+    resetId();
+    tasks = addTask([], 'Tarefa 1'); // pendente
+    tasks = addTask(tasks, 'Tarefa 2'); 
+    tasks[1].completed = true; // Força uma como concluída para o teste
+  });
+
+  it('deve filtrar apenas concluídas', () => {
+    const result = filterTasks(tasks, 'completed');
+    expect(result).toHaveLength(1);
+    expect(result[0].completed).toBe(true);
+  });
+
+  it('deve retornar todas para filtro "all"', () => {
+    const result = filterTasks(tasks, 'all');
+    expect(result).toHaveLength(2);
   });
 });
