@@ -12,6 +12,7 @@ import {
   validatePriority,
   filterByPriority,
   isDuplicate,
+  sortTaks,
 } from '../src/taskManager.js';
 
 // ============================================================
@@ -289,5 +290,29 @@ describe('Impedir duplicatas', () => {
   it('addTask deve lançar erro ao tentar adicionar título duplicado', () => {
     const tasks = addTask([], 'Aprender TDD');
     expect(() => addTask(tasks, 'Aprender TDD')).toThrow('Tarefa duplicada');
+  });
+});
+
+// ============================================================
+// Exercício 6: Ordenação
+// ============================================================
+describe('sortTasks', () => {
+  it('deve ordenar colocando pendentes antes de concluídas', () => {
+    const tasks = [
+      { title: 'A', completed: true },
+      { title: 'B', completed: false },
+      { title: 'C', completed: false }
+    ];
+    const sorted = sortTasks(tasks);
+    
+    expect(sorted[0].title).toBe('B');
+    expect(sorted[1].title).toBe('C');
+    expect(sorted[2].title).toBe('A');
+  });
+
+  it('deve retornar um NOVO array (imutabilidade)', () => {
+    const tasks = [{ title: 'A', completed: true }];
+    const sorted = sortTasks(tasks);
+    expect(sorted).not.toBe(tasks);
   });
 });
