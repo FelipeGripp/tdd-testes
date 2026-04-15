@@ -12,7 +12,8 @@ import {
   validatePriority,
   filterByPriority,
   isDuplicate,
-  sortTaks,
+  sortTasks,
+  searchTasks,
 } from '../src/taskManager.js';
 
 // ============================================================
@@ -174,7 +175,7 @@ describe('removeTask', () => {
   it('deve retornar um NOVO array (imutabilidade)', () => {
     const updated = removeTask(tasks, 1);
     expect(updated).not.toBe(tasks);
-    expect(tasks).toHaveLength(3); // Original não muda
+    expect(tasks).toHaveLength(3);
   });
 
   it('deve retornar a lista completa se o ID não existir', () => {
@@ -191,9 +192,9 @@ describe('filterTasks', () => {
 
   beforeEach(() => {
     resetId();
-    tasks = addTask([], 'Tarefa 1'); // pendente
+    tasks = addTask([], 'Tarefa 1');
     tasks = addTask(tasks, 'Tarefa 2'); 
-    tasks[1].completed = true; // Força uma como concluída para o teste
+    tasks[1].completed = true;
   });
 
   it('deve filtrar apenas concluídas', () => {
@@ -216,9 +217,8 @@ describe('Contagens', () => {
 
   beforeEach(() => {
     resetId();
-    tasks = addTask([], 'Tarefa 1'); // pendente
-    tasks = addTask(tasks, 'Tarefa 2'); // pendente
-    // Vamos marcar uma como concluída manualmente para testar a contagem
+    tasks = addTask([], 'Tarefa 1');
+    tasks = addTask(tasks, 'Tarefa 2');
     tasks[0].completed = true; 
   });
 
@@ -314,5 +314,32 @@ describe('sortTasks', () => {
     const tasks = [{ title: 'A', completed: true }];
     const sorted = sortTasks(tasks);
     expect(sorted).not.toBe(tasks);
+  });
+});
+
+// ============================================================
+// Exercício 7: Busca por texto
+// ============================================================
+describe('searchTasks', () => {
+  const tasks = [
+    { title: 'Estudar Vitest' },
+    { title: 'Comprar café' },
+    { title: 'Testar aplicação' }
+  ];
+
+  it('deve encontrar tarefas que contenham o termo (case-insensitive)', () => {
+    const result = searchTasks(tasks, 'EST');
+    expect(result).toHaveLength(2);
+    expect(result[0].title).toBe('Estudar Vitest');
+  });
+
+  it('deve retornar array vazio se não encontrar nada', () => {
+    const result = searchTasks(tasks, 'Python');
+    expect(result).toHaveLength(0);
+  });
+
+  it('deve retornar todas as tarefas se a busca for vazia', () => {
+    const result = searchTasks(tasks, '');
+    expect(result).toHaveLength(3);
   });
 });
