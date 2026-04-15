@@ -6,6 +6,9 @@ import {
   resetId,
   removeTask,
   filterTasks,
+  countTasks,
+  countCompleted,
+  countPending,
 } from '../src/taskManager.js';
 
 // ============================================================
@@ -198,5 +201,38 @@ describe('filterTasks', () => {
   it('deve retornar todas para filtro "all"', () => {
     const result = filterTasks(tasks, 'all');
     expect(result).toHaveLength(2);
+  });
+});
+
+// ============================================================
+// Exercício 3: Contagens
+// ============================================================
+describe('Contagens', () => {
+  let tasks;
+
+  beforeEach(() => {
+    resetId();
+    tasks = addTask([], 'Tarefa 1'); // pendente
+    tasks = addTask(tasks, 'Tarefa 2'); // pendente
+    // Vamos marcar uma como concluída manualmente para testar a contagem
+    tasks[0].completed = true; 
+  });
+
+  it('countTasks deve retornar o total de tarefas', () => {
+    expect(countTasks(tasks)).toBe(2);
+  });
+
+  it('countCompleted deve contar apenas as concluídas', () => {
+    expect(countCompleted(tasks)).toBe(1);
+  });
+
+  it('countPending deve contar apenas as pendentes', () => {
+    expect(countPending(tasks)).toBe(1);
+  });
+
+  it('deve retornar 0 para lista vazia em todas as funções', () => {
+    expect(countTasks([])).toBe(0);
+    expect(countCompleted([])).toBe(0);
+    expect(countPending([])).toBe(0);
   });
 });
